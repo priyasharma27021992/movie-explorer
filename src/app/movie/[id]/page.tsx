@@ -1,6 +1,17 @@
-export const revalidate = 60; // ISR every 60s
 import { Suspense } from 'react';
 import Reviews from './reviews';
+
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+	const res = await fetch(
+		`https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_KEY}`
+	);
+	const data = await res.json();
+	return data?.results?.map((movie: { id?: number }) => ({
+		id: movie?.id?.toString() || '',
+	}));
+}
 
 export default async function MovieDetails({
 	params,
