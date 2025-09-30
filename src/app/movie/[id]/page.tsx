@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import Reviews from './reviews';
+import { notFound } from 'next/navigation';
 
 export const revalidate = 60;
 
@@ -22,6 +23,9 @@ export default async function MovieDetails({
 	const res = await fetch(
 		`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_KEY}`
 	);
+	if (!res.ok) {
+		notFound();
+	}
 	const movie = await res.json();
 	return (
 		<main>
