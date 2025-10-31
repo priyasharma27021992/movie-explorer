@@ -1,7 +1,8 @@
+import { Movie } from "@/types";
 import { NextRequest } from "next/server";
 
-let cachedData = null;
-let cachedEtag = null;
+let cachedData: Array<Movie> = [];
+let cachedEtag: string = '';
 
 export async function GET(req:NextRequest) {
     if(cachedData && cachedEtag){
@@ -11,7 +12,15 @@ export async function GET(req:NextRequest) {
         }
     }
 
-    const tmdbRes = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_KEY}`);
+    const { searchParams } = new URL(req.url);
+    const page = searchParams.get("page") || '1';
+    let fetchUrl = `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_KEY}`;
+    if(page){
+        fetchUrl = fetchUrl + `&page=${page}`;
+    }
+    const tmdbRes = await fetch(fetchUrl);
+
+
     const data = await tmdbRes.json();
 
     cachedData = data;

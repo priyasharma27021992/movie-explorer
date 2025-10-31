@@ -6,8 +6,6 @@ import { Review } from '@/types';
 export default function Reviews({ id }: { id: string }) {
 	const { reviews, isLoading, isError } = useReviews(id);
 
-	console.log('reviews', reviews);
-
 	return (
 		<ul>
 			{reviews?.map((review: Review) => (
