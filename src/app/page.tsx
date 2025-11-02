@@ -49,6 +49,7 @@ export default function Home() {
 						key={`${movie.id}-${index}`}
 						movie={movie}
 						className='rounded-lg'
+						index={index}
 					/>
 				))}
 			</div>

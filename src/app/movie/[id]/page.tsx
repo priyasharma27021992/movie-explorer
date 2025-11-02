@@ -1,6 +1,8 @@
 import { Suspense } from 'react';
 import Reviews from './reviews';
 import { notFound } from 'next/navigation';
+import { Image } from '../../../components/ui/Image';
+import '../../styles/global.css';
 
 export const revalidate = 60;
 
@@ -27,16 +29,38 @@ export default async function MovieDetails({
 		notFound();
 	}
 	const movie = await res.json();
-	return (
-		<main>
-			<h1>{movie.title}</h1>
-			<p>{movie.overview}</p>
 
-			<h2>Reviews</h2>
-			<p>Generated at: {new Date().toISOString()}</p>
-			<Suspense fallback={<p>Loading reviews...</p>}>
-				<Reviews id={movie.id} />
-			</Suspense>
+	console.log('movie baby', movie);
+	return (
+		<main
+			className={`
+    flex flex-col md:flex-row gap-1 justify-center rounded-lg
+  `}>
+			<div className='flex-1'>
+				<h1>{movie.title}</h1>
+				<p>{movie.overview}</p>
+
+				<h2>Reviews</h2>
+				<p>Generated at: {new Date().toISOString()}</p>
+				<Suspense fallback={<p>Loading reviews...</p>}>
+					{/* <div
+						className={`
+    flex flex-col md:flex-row gap-1 justify-center rounded-lg border-8 border-transparent p-3
+    [background:padding-box_linear-gradient(#FFF),border-box_conic-gradient(from_var(--angle),#070707,#687aff,#ff5f6d,#ffc371)]
+    animate-[rotate_5s_linear_infinite]
+  `}></div> */}
+					<Reviews id={movie.id} />
+				</Suspense>
+			</div>
+
+			<div className='relative aspect-[2/3] max-w-[200px] flex-1'>
+				<Image
+					src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+					alt={movie.title}
+					fill
+					className='absolute object-cover'
+				/>
+			</div>
 		</main>
 	);
 }

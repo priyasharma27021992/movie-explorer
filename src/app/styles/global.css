@@ -1,0 +1,5 @@
+@keyframes rotate {
+  0% { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+
