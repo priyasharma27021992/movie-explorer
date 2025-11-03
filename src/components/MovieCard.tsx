@@ -5,6 +5,10 @@ import { Movie } from '@/types';
 import { useState } from 'react';
 import { Toast } from './ui/Toast/Toast';
 import { useToast } from '@/hooks/useToasts';
+import { TOAST_TYPE, ToastPosition } from './ui/Toast/types';
+import StarIcon from '@/assets/icons/star.svg';
+import StarIconOutline from '@/assets/icons/outline/star.svg';
+import { useAddToWatch } from '@/hooks/useAddToWatch';
 
 interface MovieCardProps {
 	movie: Movie;
@@ -13,17 +17,12 @@ interface MovieCardProps {
 }
 
 const MovieCard = ({ movie, index, className }: MovieCardProps) => {
-	const [addToWatchMovies, setAddToWatchMovies] = useState([]);
-	const { list, setToastList } = useToast();
+	const { list } = useToast();
+	const { addToWatchMovies, toggleToWatchMovie } = useAddToWatch();
 
-	const addToWatch = () => {
-		setAddToWatchMovies((prev) => [...prev]);
-		setToastList({
-			position: 'top-right',
-			type: 'info',
-			title: `Movie ${movie.title} added to your watch list!`,
-		});
-	};
+	const isAddedToWatch = addToWatchMovies?.some(
+		(addedMovie) => addedMovie.title === movie.title
+	);
 
 	return (
 		<>
@@ -44,15 +43,32 @@ const MovieCard = ({ movie, index, className }: MovieCardProps) => {
 					</div>
 				</Link>
 				<button
-					className='text-left text-sm cursor-pointer'
-					onClick={addToWatch}>
-					Add To Watch
+					className='flex items-center gap-1 text-left text-sm cursor-pointer'
+					onClick={() => toggleToWatchMovie(movie)}>
+					{isAddedToWatch ? (
+						<span>Remove from Add To Watch</span>
+					) : (
+						<span>Add To Watch</span>
+					)}
+					{isAddedToWatch ? (
+						<StarIcon
+							className='text-yellow-300'
+							width={15}
+							height={15}
+						/>
+					) : (
+						<StarIconOutline
+							className=''
+							width={15}
+							height={15}
+						/>
+					)}
 				</button>
 			</div>
 			{list.length > 0 && (
 				<Toast
 					toastList={list}
-					position='top-0 right-0'
+					position={ToastPosition.TOP_RIGHT}
 				/>
 			)}
 		</>
