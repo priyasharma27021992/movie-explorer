@@ -8,7 +8,7 @@ const Toast = (props: ToastProps) => {
 	const {
 		toastList,
 		position = ToastPosition.TOP_RIGHT,
-		autoDelete = false,
+		autoDelete = true,
 		autoDeleteTime = 10000,
 	} = props;
 	const [list, setList] = useState(toastList);

@@ -1,17 +1,12 @@
-import { ToastType } from "@/components/ui/Toast/types";
-import { useState } from "react";
+import { ToastsContext } from "@/providers/ToastsProvider";
+import { useContext } from "react";
 
 
 export const useToast = () => {
-    const [list, setList] = useState<Array<ToastType>>([]);
+    const context = useContext(ToastsContext);
 
-    const setToastList = (toastData: ToastType) => {
-        console.log('came here', toastData);
-        setList(prev => ([...prev, toastData]));
-    }
+    if(!context)
+        throw new Error('useToasts must be used inside ToastsProvider');
 
-    return {
-        list,
-        setToastList,
-    }
+    return context;
 }
