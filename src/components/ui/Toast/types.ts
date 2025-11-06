@@ -1,5 +1,4 @@
-export interface ToastType {
-    id: string;
+export interface ToastInterface {
     title: string;
     description?: string;
     type: typeof TOAST_TYPE[keyof typeof TOAST_TYPE]
@@ -13,7 +12,6 @@ export const TOAST_TYPE = {
 } as const;
 
 export interface ToastProps {
-    toastList: Array<ToastType>;
     position: typeof ToastPosition[keyof typeof ToastPosition];
     autoDelete?: boolean;
     autoDeleteTime?: number;

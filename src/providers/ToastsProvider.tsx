@@ -1,18 +1,32 @@
 'use client';
 
-import { ToastType } from '@/components/ui/Toast/types';
-import { createContext, useState } from 'react';
+import { ToastInterface } from '@/components/ui/Toast/types';
+import { createContext, ReactNode, useState } from 'react';
 
-export const ToastsContext = createContext([]);
+interface ToastContextType {
+	toastList?: Array<ToastInterface>;
+	addToToastList?: (toastData: ToastInterface) => void;
+	setToastList?: (toastList: Array<ToastInterface>) => void;
+}
 
-export const ToastsProvider = ({ children }) => {
-	const [list, setList] = useState<Array<ToastType>>([]);
+export const ToastsContext = createContext<ToastContextType>({});
 
-	const setToastList = (toastData: ToastType) => {
-		setList((prev) => [...prev, toastData]);
+export const ToastsProvider = ({ children }: { children: ReactNode }) => {
+	const [toastList, setToastList] = useState<Array<ToastInterface>>([]);
+
+	const addToToastList = (toastData: ToastInterface) => {
+		setToastList((prev) => [
+			...prev,
+			{
+				...toastData,
+				id: prev.length + 1,
+			},
+		]);
 	};
 
 	return (
-		<ToastsContext value={{ list, setToastList }}>{children}</ToastsContext>
+		<ToastsContext value={{ toastList, addToToastList, setToastList }}>
+			{children}
+		</ToastsContext>
 	);
 };

@@ -2,7 +2,7 @@ import { ToastsContext } from "@/providers/ToastsProvider";
 import { useContext } from "react";
 
 
-export const useToast = () => {
+export const useToastContext = () => {
     const context = useContext(ToastsContext);
 
     if(!context)

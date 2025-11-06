@@ -2,10 +2,6 @@ import Link from 'next/link';
 import { Image } from '../components/ui/Image';
 import { cn } from '@/utils/common';
 import { Movie } from '@/types';
-import { useState } from 'react';
-import { Toast } from './ui/Toast/Toast';
-import { useToast } from '@/hooks/useToasts';
-import { TOAST_TYPE, ToastPosition } from './ui/Toast/types';
 import StarIcon from '@/assets/icons/star.svg';
 import StarIconOutline from '@/assets/icons/outline/star.svg';
 import { useAddToWatch } from '@/hooks/useAddToWatch';
@@ -16,12 +12,11 @@ interface MovieCardProps {
 	index?: number;
 }
 
-const MovieCard = ({ movie, index, className }: MovieCardProps) => {
-	const { list } = useToast();
+const MovieCard = ({ movie, className }: MovieCardProps) => {
 	const { addToWatchMovies, toggleToWatchMovie } = useAddToWatch();
 
 	const isAddedToWatch = addToWatchMovies?.some(
-		(addedMovie) => addedMovie.title === movie.title
+		(addedMovie: Movie) => addedMovie.title === movie.title
 	);
 
 	return (
@@ -58,19 +53,12 @@ const MovieCard = ({ movie, index, className }: MovieCardProps) => {
 						/>
 					) : (
 						<StarIconOutline
-							className=''
 							width={15}
 							height={15}
 						/>
 					)}
 				</button>
 			</div>
-			{list.length > 0 && (
-				<Toast
-					toastList={list}
-					position={ToastPosition.TOP_RIGHT}
-				/>
-			)}
 		</>
 	);
 };

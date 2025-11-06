@@ -1,39 +1,25 @@
 'use client';
 
 import { cn } from '@/utils/common';
-import React, { useEffect, useState } from 'react';
-import { TOAST_TYPE, ToastPosition, ToastProps } from './types';
+import React from 'react';
+import { TOAST_TYPE, ToastPosition, ToastProps, ToastInterface } from './types';
+import { useToast } from '@/hooks/useToast';
 
 const Toast = (props: ToastProps) => {
 	const {
-		toastList,
+		autoDelete,
+		autoDeleteTime,
 		position = ToastPosition.TOP_RIGHT,
-		autoDelete = true,
-		autoDeleteTime = 10000,
 	} = props;
-	const [list, setList] = useState(toastList);
+	const { deleteToast, toastList } = useToast({ autoDelete, autoDeleteTime });
 
-	useEffect(() => {
-		setList(toastList);
-	}, [toastList]);
-
-	useEffect(() => {
-		if (!autoDelete) return;
-		const interval = setInterval(() => {
-			setList((prev) => prev.slice(1));
-		}, autoDeleteTime);
-		return () => clearInterval(interval);
-	}, [autoDelete, autoDeleteTime]);
-
-	const deleteToast = (id: string) => {
-		setList((prev) => prev.filter((ele) => ele.id !== id));
-	};
+	if (!toastList?.length) return null;
 
 	return (
 		<div className={cn('absolute z-20 flex flex-col gap-2', position)}>
-			{list?.map((toastItem) => (
+			{toastList?.map((toastItem: ToastInterface, index) => (
 				<div
-					key={toastItem.id}
+					key={toastItem.title}
 					className={cn(
 						'w-[300px] h-[100px] p-2 border-2 border-gray-400 shadow-lg rounded-lg',
 						toastItem.type === TOAST_TYPE.INFO && 'bg-sky-400',
@@ -43,7 +29,7 @@ const Toast = (props: ToastProps) => {
 					)}>
 					<button
 						className='cursor-pointer'
-						onClick={() => deleteToast(toastItem.id)}>
+						onClick={() => deleteToast(index)}>
 						X
 					</button>
 					<div>
