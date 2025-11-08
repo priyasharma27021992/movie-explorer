@@ -9,10 +9,10 @@ interface useToastProps {
 
 export const useToast = ({ autoDelete = false, autoDeleteTime = 2000}: useToastProps) => {
     const { toastList, addToToastList, setToastList} = useToastContext();
-    console.log('autoDelete', autoDelete)
+    console.log('autoDelete', autoDelete, 'autoDeleteTime',autoDeleteTime)
 
 	useEffect(() => {
-		if (!autoDelete) return;
+		if (!autoDelete || !toastList?.length) return;
 		const interval = setInterval(() => {
 			setToastList((prev) => prev.slice(1));
 		}, autoDeleteTime);
@@ -20,7 +20,7 @@ export const useToast = ({ autoDelete = false, autoDeleteTime = 2000}: useToastP
 	}, [autoDelete, autoDeleteTime]);
 
     const deleteToast = (index) => {
-        setToastList((prev) => [...prev.splice(index,0)]);
+        setToastList((prev) => prev.filter((_, indx) => index !== indx));
     }
 
     return {toastList, addToToastList, deleteToast}

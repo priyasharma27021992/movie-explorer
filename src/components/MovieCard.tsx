@@ -12,8 +12,12 @@ interface MovieCardProps {
 	index?: number;
 }
 
-const MovieCard = ({ movie, className }: MovieCardProps) => {
-	const { addToWatchMovies, toggleToWatchMovie } = useAddToWatch();
+const MovieCard = ({
+	movie,
+	className,
+	toggleToWatchMovie,
+}: MovieCardProps) => {
+	const { addToWatchMovies } = useAddToWatch();
 
 	const isAddedToWatch = addToWatchMovies?.some(
 		(addedMovie: Movie) => addedMovie.title === movie.title

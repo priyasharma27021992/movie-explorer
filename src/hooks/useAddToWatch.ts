@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TOAST_TYPE } from "@/components/ui/Toast/types";
 import { useToastContext } from "./useToastContext";
 import { Movie } from "@/types";
@@ -6,6 +6,9 @@ import { Movie } from "@/types";
 export const useAddToWatch = () => {
     const [addToWatchMovies, setAddToWatchMovies] = useState<Array<Movie>>([]);
     const { addToToastList } = useToastContext();
+    useEffect(() => {
+    console.log("addToWatchMovies changed:", addToWatchMovies);
+    }, [addToWatchMovies]);
 
 
 	const toggleToWatchMovie = (movie: Movie) => {

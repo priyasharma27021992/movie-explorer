@@ -1,6 +1,7 @@
 'use client';
 
 import { MovieCard } from '@/components/MovieCard';
+import { useAddToWatch } from '@/hooks/useAddToWatch';
 import { Movie } from '@/types';
 import { useEffect, useRef, useState } from 'react';
 
@@ -9,6 +10,7 @@ export default function Home() {
 	const [page, setPage] = useState(1);
 	const [loading, setLoading] = useState(false);
 	const loadingRef = useRef(null);
+	const { toggleToWatchMovie } = useAddToWatch();
 
 	useEffect(() => {
 		const intersectionObserver = new IntersectionObserver(
@@ -50,6 +52,7 @@ export default function Home() {
 						movie={movie}
 						className='rounded-lg'
 						index={index}
+						toggleToWatchMovie={toggleToWatchMovie}
 					/>
 				))}
 			</div>
