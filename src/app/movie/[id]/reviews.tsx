@@ -1,5 +1,6 @@
 'use client';
 
+import ReadMore from '@/components/ui/ReadMore/ReadMore';
 import { useReviews } from '@/hooks/useReviews';
 import { Review } from '@/types';
 
@@ -12,8 +13,13 @@ export default function Reviews({ id }: { id: string }) {
 		<ul>
 			<h2>Reviews</h2>
 			<p>Generated at: {new Date().toISOString()}</p>
-			{reviews?.map((review: Review) => (
-				<li key={review.id}>{review.content}</li>
+			{reviews?.map((review: Review, index: number) => (
+				<li key={review.id}>
+					<h3>
+						Review {index + 1} by {review?.author}
+					</h3>
+					<ReadMore text={review.content} />
+				</li>
 			))}
 		</ul>
 	);

@@ -14,15 +14,15 @@ export const useAddToWatch = () => {
 
 	const toggleToWatchMovie = (movie: Movie) => {
         if(isMovieInWatchList(movie.title)){
-            removeFromWatchlist(movie);
-            addToToastList({
+            removeFromWatchlist?.(movie);
+            addToToastList?.({
 			type: TOAST_TYPE.ERROR,
 			title: `Movie ${movie.title} is removed to your watch list!`,
 		});
             return;
         }
-		addToWatchList(movie);
-		addToToastList({
+		addToWatchList?.(movie);
+		addToToastList?.({
 			type: TOAST_TYPE.INFO,
 			title: `Movie ${movie.title} is added to your watch list!`,
 		});

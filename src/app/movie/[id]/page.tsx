@@ -32,7 +32,7 @@ export default async function MovieDetails({
 
 	return (
 		<main>
-			<div className='flex flex-col md:flex-row gap-4 justify-between mx-auto rounded-lg max-w-6xl m-4'>
+			<div className='flex flex-col md:flex-row gap-4 items-start justify-between mx-auto rounded-lg max-w-6xl m-4'>
 				<div className='flex-1 gap-2'>
 					<h1 className='font-bold text-2xl'>{movie.title}</h1>
 					<p className='italic font-semibold'>{movie.overview}</p>
@@ -47,7 +47,7 @@ export default async function MovieDetails({
 						src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
 						alt={movie.title}
 						fill
-						className='absolute object-contain'
+						className='absolute object-contain rounded-2xl'
 					/>
 				</div>
 			</div>

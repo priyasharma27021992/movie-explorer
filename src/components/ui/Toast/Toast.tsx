@@ -29,7 +29,8 @@ const Toast = (props: ToastProps) => {
 					)}>
 					<button
 						className='cursor-pointer'
-						onClick={() => deleteToast(index)}>
+						onClick={() => deleteToast(toastItem?.id || -1)}
+						disabled={!toastItem?.id}>
 						X
 					</button>
 					<div>

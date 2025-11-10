@@ -8,24 +8,19 @@ interface useToastProps {
 }
 
 export const useToast = ({ autoDelete = false, autoDeleteTime = 1000}: useToastProps) => {
-    const { toastList, addToToastList, setToastList} = useToastContext();
-    console.log('autoDelete', autoDelete, 'autoDeleteTime',autoDeleteTime)
+    const { toastList, addToToastList, removeFromToastList} = useToastContext();
 
 	useEffect(() => {
 		if (!autoDelete || !toastList?.length) return;
 		const interval = setInterval(() => {
-			setToastList((prev) => {
-                console.log('changed', prev.slice(1));
-                return prev.slice(1)
-        });
+			removeFromToastList?.(toastList?.[0].id || -1)
 		}, autoDeleteTime);
 		return () => clearInterval(interval);
-	}, [autoDelete, autoDeleteTime, setToastList, toastList?.length]);
+	}, [autoDelete, autoDeleteTime, removeFromToastList, toastList, toastList?.length]);
 
-    const deleteToast = (index) => {
-        setToastList((prev) => prev.filter((_, indx) => index !== indx));
+    const deleteToast = (id: number) => {
+        removeFromToastList?.(id)
     }
 
-    console.log('toastList',toastList);
     return {toastList, addToToastList, deleteToast}
 }

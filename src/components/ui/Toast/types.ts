@@ -1,4 +1,5 @@
 export interface ToastInterface {
+    id?: number;
     title: string;
     description?: string;
     type: typeof TOAST_TYPE[keyof typeof TOAST_TYPE]

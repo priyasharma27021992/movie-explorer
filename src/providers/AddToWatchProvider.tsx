@@ -4,9 +4,9 @@ import { Movie } from '@/types';
 import { createContext, useState, ReactNode } from 'react';
 
 interface AddToWatchContextType {
-	addToWatchMovies: Array<Movie>;
-	removeFromWatchlist: (mov: Movie) => void;
-	addToWatchList: (mov: Movie) => void;
+	addToWatchMovies?: Array<Movie>;
+	removeFromWatchlist?: (mov: Movie) => void;
+	addToWatchList?: (mov: Movie) => void;
 }
 export const AddToWatchContext = createContext<AddToWatchContextType>({});
 
