@@ -30,36 +30,26 @@ export default async function MovieDetails({
 	}
 	const movie = await res.json();
 
-	console.log('movie baby', movie);
 	return (
-		<main
-			className={`
-    flex flex-col md:flex-row gap-1 justify-center rounded-lg
-  `}>
-			<div className='flex-1'>
-				<h1>{movie.title}</h1>
-				<p>{movie.overview}</p>
+		<main>
+			<div className='flex flex-col md:flex-row gap-4 justify-between mx-auto rounded-lg max-w-6xl m-4'>
+				<div className='flex-1 gap-2'>
+					<h1 className='font-bold text-2xl'>{movie.title}</h1>
+					<p className='italic font-semibold'>{movie.overview}</p>
 
-				<h2>Reviews</h2>
-				<p>Generated at: {new Date().toISOString()}</p>
-				<Suspense fallback={<p>Loading reviews...</p>}>
-					{/* <div
-						className={`
-    flex flex-col md:flex-row gap-1 justify-center rounded-lg border-8 border-transparent p-3
-    [background:padding-box_linear-gradient(#FFF),border-box_conic-gradient(from_var(--angle),#070707,#687aff,#ff5f6d,#ffc371)]
-    animate-[rotate_5s_linear_infinite]
-  `}></div> */}
-					<Reviews id={movie.id} />
-				</Suspense>
-			</div>
+					<Suspense fallback={<p>Loading reviews...</p>}>
+						<Reviews id={movie.id} />
+					</Suspense>
+				</div>
 
-			<div className='relative aspect-[2/3] max-w-[200px] flex-1'>
-				<Image
-					src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-					alt={movie.title}
-					fill
-					className='absolute object-cover'
-				/>
+				<div className='relative aspect-[2/3] max-w-[200px] lg:max-w-[300px] flex-1'>
+					<Image
+						src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+						alt={movie.title}
+						fill
+						className='absolute object-contain'
+					/>
+				</div>
 			</div>
 		</main>
 	);

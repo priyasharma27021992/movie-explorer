@@ -45,7 +45,7 @@ export default function Home() {
 			<h1 className='font-bold text-center my-2 text-2xl'>
 				Trending Movies(SSR)
 			</h1>
-			<div className='grid grid-cols-1 lg:grid-cols-5 md:grid-cols-3 gap-4'>
+			<div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 md:grid-cols-3 md:gap-4 gap-2 max-w-full md:max-w-[90%] lg:max-w-[95%] mx-auto'>
 				{movies?.map((movie: { id: string; title: string }, index) => (
 					<MovieCard
 						key={`${movie.id}-${index}`}

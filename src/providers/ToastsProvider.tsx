@@ -5,8 +5,8 @@ import { createContext, ReactNode, useState } from 'react';
 
 interface ToastContextType {
 	toastList?: Array<ToastInterface>;
-	addToToastList?: (toastData: ToastInterface) => void;
-	setToastList?: (toastList: Array<ToastInterface>) => void;
+	addToToastList: (toastData: ToastInterface) => void;
+	setToastList: (toastList: Array<ToastInterface>) => void;
 }
 
 export const ToastsContext = createContext<ToastContextType>({});
