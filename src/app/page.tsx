@@ -1,14 +1,18 @@
 'use client';
 
 import { MovieCard } from '@/components/MovieCard';
+import { SearchBox } from '@/components/SearchBox';
 import { useAddToWatch } from '@/hooks/useAddToWatch';
 import { Movie } from '@/types';
+import { debounce } from '@/utils/common';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
 	const [movies, setMovies] = useState<Array<Movie>>([]);
+	const [filteredMovies, setFilteredMovies] = useState<Array<Movie>>([]);
 	const [page, setPage] = useState(1);
 	const [loading, setLoading] = useState(false);
+	const [searchStr, setSearchStr] = useState('');
 	const loadingRef = useRef(null);
 	const { toggleToWatchMovie } = useAddToWatch();
 
@@ -27,6 +31,24 @@ export default function Home() {
 		return () => intersectionObserver.disconnect();
 	}, []);
 
+	const searchByMovieName = (searchText?: string) => {
+		if (!searchText) {
+			setFilteredMovies(movies);
+			return;
+		}
+
+		setFilteredMovies((prev) => [
+			...prev.filter((mov) => mov.title.indexOf(searchText) >= 0),
+		]);
+	};
+
+	const debouncedSearch = debounce(searchByMovieName);
+
+	const handleSearch = (searchText: string) => {
+		setSearchStr(searchText);
+		debouncedSearch(searchText);
+	};
+
 	useEffect(() => {
 		setLoading(true);
 		fetch(`/api/trending?page=${page}`) // browser makes this request
@@ -40,13 +62,19 @@ export default function Home() {
 			});
 	}, [page]);
 
+	useEffect(() => {
+		setFilteredMovies(movies);
+	}, [movies]);
+
 	return (
 		<main className='max-w-[1280px] mx-auto my-2'>
-			<h1 className='font-bold text-center my-2 text-2xl'>
-				Trending Movies(SSR)
-			</h1>
+			<h1 className='font-bold text-center my-2 text-2xl'>Trending Movies</h1>
+			{/* <SearchBox
+				searchStr={searchStr}
+				setSearchStr={handleSearch}
+			/> */}
 			<div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 md:grid-cols-3 md:gap-4 gap-2 max-w-full md:max-w-[90%] lg:max-w-[95%] mx-auto'>
-				{movies?.map((movie: { id: string; title: string }, index) => (
+				{filteredMovies?.map((movie: { id: string; title: string }, index) => (
 					<MovieCard
 						key={`${movie.id}-${index}`}
 						movie={movie}

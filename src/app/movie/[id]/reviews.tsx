@@ -18,7 +18,9 @@ export default function Reviews({ id }: { id: string }) {
 					<h3>
 						Review {index + 1} by {review?.author}
 					</h3>
-					<ReadMore text={review.content} />
+					{/* <ReadMore text={review.content} /> */}
+					{review.content}
+					<div className='border-t-2 border-black w-full my-2' />
 				</li>
 			))}
 		</ul>

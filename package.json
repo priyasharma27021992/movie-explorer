@@ -6,9 +6,12 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "cypress:open":"cypress open"
   },
   "dependencies": {
+    "D": "^1.0.0",
+    "cypress": "^15.6.0",
     "next": "15.5.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
