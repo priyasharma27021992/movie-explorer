@@ -5,7 +5,7 @@ import { SearchBox } from '@/components/SearchBox';
 import { useAddToWatch } from '@/hooks/useAddToWatch';
 import { Movie } from '@/types';
 import { debounce } from '@/utils/common';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export default function Home() {
 	const [movies, setMovies] = useState<Array<Movie>>([]);
@@ -23,7 +23,7 @@ export default function Home() {
 					setPage((prev) => prev + 1);
 				}
 			},
-			{ threshold: 1 }
+			{ threshold: 0, rootMargin: '200px' }
 		);
 		if (loadingRef.current) {
 			intersectionObserver.observe(loadingRef.current);
@@ -31,18 +31,23 @@ export default function Home() {
 		return () => intersectionObserver.disconnect();
 	}, []);
 
-	const searchByMovieName = (searchText?: string) => {
-		if (!searchText) {
-			setFilteredMovies(movies);
-			return;
-		}
+	const searchByMovieName = useCallback(
+		(searchText?: string) => {
+			if (!searchText) {
+				setFilteredMovies(movies);
+				return;
+			}
 
-		setFilteredMovies((prev) => [
-			...prev.filter((mov) => mov.title.indexOf(searchText) >= 0),
-		]);
-	};
+			const text = searchText.toLowerCase();
+			const filtered = movies.filter((mov) =>
+				mov.title.toLowerCase().includes(text)
+			);
+			setFilteredMovies(filtered);
+		},
+		[movies]
+	);
 
-	const debouncedSearch = debounce(searchByMovieName);
+	const debouncedSearch = useMemo(() => debounce(searchByMovieName), [movies]);
 
 	const handleSearch = (searchText: string) => {
 		setSearchStr(searchText);
@@ -63,17 +68,18 @@ export default function Home() {
 	}, [page]);
 
 	useEffect(() => {
-		setFilteredMovies(movies);
+		if (!searchStr) setFilteredMovies(movies);
+		else searchByMovieName(searchStr);
 	}, [movies]);
 
 	return (
 		<main className='max-w-[1280px] mx-auto my-2'>
 			<h1 className='font-bold text-center my-2 text-2xl'>Trending Movies</h1>
-			{/* <SearchBox
+			<SearchBox
 				searchStr={searchStr}
 				setSearchStr={handleSearch}
-			/> */}
-			<div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 md:grid-cols-3 md:gap-4 gap-2 max-w-full md:max-w-[90%] lg:max-w-[95%] mx-auto'>
+			/>
+			<div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 md:grid-cols-3 md:gap-4 gap-2 max-w-full md:max-w-[90%] lg:max-w-[95%] mx-auto'>
 				{filteredMovies?.map((movie: { id: string; title: string }, index) => (
 					<MovieCard
 						key={`${movie.id}-${index}`}
