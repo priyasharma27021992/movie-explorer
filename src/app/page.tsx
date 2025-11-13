@@ -54,17 +54,32 @@ export default function Home() {
 		debouncedSearch(searchText);
 	};
 
+	const fetchMovies = async <T,>(page: number): Promise<T> => {
+		const res = await fetch(`/api/trending?page=${page}`);
+		const data = await res.json();
+		return data as T;
+	};
+
+	type MoviesType<T> = T extends Promise<infer R> ? R : T;
+
+	type Result = MoviesType<
+		ReturnType<typeof fetchMovies<{ results: Movie[] }>>
+	>;
+
 	useEffect(() => {
-		setLoading(true);
-		fetch(`/api/trending?page=${page}`) // browser makes this request
-			.then((res) => {
-				console.log(res.status, res.headers.get('ETag'));
-				return res.json();
-			})
-			.then((data) => {
-				setLoading(false);
+		const run = async () => {
+			setLoading(true);
+			try {
+				const data: Result = await fetchMovies(page);
 				setMovies((prev) => [...prev, ...data.results]);
-			});
+			} catch (error) {
+				console.error(error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		run();
 	}, [page]);
 
 	useEffect(() => {
@@ -79,7 +94,7 @@ export default function Home() {
 				searchStr={searchStr}
 				setSearchStr={handleSearch}
 			/>
-			<div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 md:grid-cols-3 md:gap-4 gap-2 max-w-full md:max-w-[90%] lg:max-w-[95%] mx-auto'>
+			<div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 md:grid-cols-4 md:gap-4 gap-2 max-w-full md:max-w-[90%] lg:max-w-[95%] mx-auto'>
 				{filteredMovies?.map((movie: { id: string; title: string }, index) => (
 					<MovieCard
 						key={`${movie.id}-${index}`}

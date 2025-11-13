@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const ReadMore = ({
 	text,
-	amountOfWords = 36,
+	amountOfWords = 500,
 }: {
 	text: string;
 	amountOfWords?: number;
@@ -11,43 +11,28 @@ const ReadMore = ({
 
 	if (!text) return null;
 
-	const isTextOverflowing = text.length > amountOfWords;
 	const beginText = text
 		.slice(0, amountOfWords - 1)
 		.split(' ')
-		.join('');
+		.join(' ');
 	const endText = text
 		.slice(amountOfWords, text.length - 1)
 		.split(' ')
-		.join('');
-
-	console.log('baby beginText', beginText);
+		.join(' ');
 
 	return (
 		<div>
-			{isTextOverflowing ? (
+			{beginText}
+			{
 				<>
-					{`${beginText} ` && (
-						<span>
-							{showMore ? (
-								<>
-									{' '}
-									{endText}
-									<button onClick={() => setShowMore((prev) => !prev)}>
-										Show Less
-									</button>
-								</>
-							) : (
-								<button onClick={() => setShowMore((prev) => !prev)}>
-									...
-								</button>
-							)}
-						</span>
-					)}
+					{showMore && <span>{endText}</span>}
+					<button
+						onClick={() => setShowMore((prev) => !prev)}
+						className='font-semibold mx-2 underline text-black/80 cursor-pointer hover:text-black/50'>
+						{showMore ? 'Show Less' : 'Show More'}
+					</button>
 				</>
-			) : (
-				<>{text}</>
-			)}
+			}
 		</div>
 	);
 };

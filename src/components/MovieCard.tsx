@@ -39,27 +39,30 @@ const MovieCard = ({
 					/>
 				</div>
 			</Link>
-			<button
-				className='flex items-center gap-1 text-left text-sm cursor-pointer mx-auto md:mx-0'
-				onClick={() => toggleToWatchMovie(movie)}>
-				{isWatchListedMovie ? (
-					<Tooltip text='Remove from Watchlist'>
-						<StarIcon
-							className='text-yellow-300 relative'
-							width={15}
-							height={15}
-						/>
-					</Tooltip>
-				) : (
-					<Tooltip text='Add To Watchlist'>
-						<StarIconOutline
-							width={15}
-							height={15}
-							className='relative'
-						/>
-					</Tooltip>
-				)}
-			</button>
+			<div className='flex gap-2 max-w-[200px]'>
+				<button
+					className='flex items-center gap-1 text-left text-sm cursor-pointer mx-auto md:mx-0'
+					onClick={() => toggleToWatchMovie(movie)}>
+					{isWatchListedMovie ? (
+						<Tooltip text='Remove from Watchlist'>
+							<StarIcon
+								className='text-yellow-300 relative'
+								width={15}
+								height={15}
+							/>
+						</Tooltip>
+					) : (
+						<Tooltip text='Add To Watchlist'>
+							<StarIconOutline
+								width={15}
+								height={15}
+								className='relative'
+							/>
+						</Tooltip>
+					)}
+				</button>
+				<p className='text-sm'>{movie.title}</p>
+			</div>
 		</div>
 	);
 };
