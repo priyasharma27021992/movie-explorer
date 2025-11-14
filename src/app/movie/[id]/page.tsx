@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
-import Reviews from './reviews';
 import { notFound } from 'next/navigation';
 import { Image } from '../../../components/ui/Image';
 import '../../styles/global.css';
+import Reviews from '@/components/Reviews';
 
 export const revalidate = 60;
 
