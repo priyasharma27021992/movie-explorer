@@ -2,6 +2,7 @@
 
 import { MovieCard } from '@/components/MovieCard';
 import { SearchBox } from '@/components/SearchBox';
+import { useMovies } from '@/hooks/api/movies';
 import { useAddToWatch } from '@/hooks/useAddToWatch';
 import { Movie } from '@/types';
 import { debounce } from '@/utils/common';
@@ -11,10 +12,14 @@ export default function Home() {
 	const [movies, setMovies] = useState<Array<Movie>>([]);
 	const [filteredMovies, setFilteredMovies] = useState<Array<Movie>>([]);
 	const [page, setPage] = useState(1);
-	const [loading, setLoading] = useState(false);
 	const [searchStr, setSearchStr] = useState('');
 	const loadingRef = useRef(null);
 	const { toggleToWatchMovie } = useAddToWatch();
+	const { data, isLoading } = useMovies(page);
+
+	useEffect(() => {
+		setMovies(data?.results);
+	}, [data]);
 
 	useEffect(() => {
 		const intersectionObserver = new IntersectionObserver(
@@ -54,34 +59,6 @@ export default function Home() {
 		debouncedSearch(searchText);
 	};
 
-	const fetchMovies = async <T,>(page: number): Promise<T> => {
-		const res = await fetch(`/api/trending?page=${page}`);
-		const data = await res.json();
-		return data as T;
-	};
-
-	type MoviesType<T> = T extends Promise<infer R> ? R : T;
-
-	type Result = MoviesType<
-		ReturnType<typeof fetchMovies<{ results: Movie[] }>>
-	>;
-
-	useEffect(() => {
-		const run = async () => {
-			setLoading(true);
-			try {
-				const data: Result = await fetchMovies(page);
-				setMovies((prev) => [...prev, ...data.results]);
-			} catch (error) {
-				console.error(error);
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		run();
-	}, [page]);
-
 	useEffect(() => {
 		if (!searchStr) setFilteredMovies(movies);
 		else searchByMovieName(searchStr);
@@ -108,7 +85,7 @@ export default function Home() {
 			<div
 				className='h-10 flex justify-center items-center'
 				ref={loadingRef}>
-				{loading && <span>loading more...</span>}
+				{isLoading && <span>loading more...</span>}
 			</div>
 		</main>
 	);
