@@ -1,45 +1,55 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
-import { ToastsProvider } from '@/providers/ToastsProvider';
-import { ToastPosition } from '@/components/ui/Toast/types';
-import { Toast } from '@/components/ui/Toast/Toast';
-import { AddToWatchProvider } from '@/providers/AddToWatchProvider';
+import type { Metadata } from 'next'
+import { Geist, Geist_Mono } from 'next/font/google'
+import './globals.css'
+import { ToastsProvider } from '@/providers/ToastsProvider'
+import { ToastPosition } from '@/components/ui/Toast/types'
+import { Toast } from '@/components/ui/Toast/Toast'
+import { AddToWatchProvider } from '@/providers/AddToWatchProvider'
+import { SWRConfig } from 'swr'
 
 const geistSans = Geist({
-	variable: '--font-geist-sans',
-	subsets: ['latin'],
-});
+    variable: '--font-geist-sans',
+    subsets: ['latin'],
+})
 
 const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
-	subsets: ['latin'],
-});
+    variable: '--font-geist-mono',
+    subsets: ['latin'],
+})
 
 export const metadata: Metadata = {
-	title: 'Movie Explorer',
-	description: 'Using SSR, CSR and Partial Rendering',
-};
+    title: 'Movie Explorer',
+    description: 'Using SSR, CSR and Partial Rendering',
+}
 
 export default function RootLayout({
-	children,
+    children,
 }: Readonly<{
-	children: React.ReactNode;
+    children: React.ReactNode
 }>) {
-	return (
-		<html lang='en'>
-			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				<ToastsProvider>
-					<AddToWatchProvider>
-						{children}
-						<Toast
-							position={ToastPosition.TOP_RIGHT}
-							autoDelete
-						/>
-					</AddToWatchProvider>
-				</ToastsProvider>
-			</body>
-		</html>
-	);
+    return (
+        <html lang="en">
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            >
+                <SWRConfig
+                    value={{
+                        revalidateOnFocus: false,
+                        revalidateIfStale: true,
+                        dedupingInterval: 2000 * 5,
+                    }}
+                >
+                    <ToastsProvider>
+                        <AddToWatchProvider>
+                            {children}
+                            <Toast
+                                position={ToastPosition.TOP_RIGHT}
+                                autoDelete
+                            />
+                        </AddToWatchProvider>
+                    </ToastsProvider>
+                </SWRConfig>
+            </body>
+        </html>
+    )
 }
