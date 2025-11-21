@@ -1,19 +1,19 @@
-'use client'
+'use client';
 
-import { cn } from '@/utils/common'
-import React from 'react'
-import { TOAST_TYPE, ToastPosition, ToastProps, ToastInterface } from './types'
-import { useToast } from '@/hooks/useToast'
+import { cn } from '@/utils/common';
+import React from 'react';
+import { TOAST_TYPE, ToastPosition, ToastProps, ToastInterface } from './types';
+import { useToast } from '@/hooks/useToast';
 
 const Toast = (props: ToastProps) => {
     const {
         autoDelete,
         autoDeleteTime,
         position = ToastPosition.TOP_RIGHT,
-    } = props
-    const { deleteToast, toastList } = useToast({ autoDelete, autoDeleteTime })
+    } = props;
+    const { deleteToast, toastList } = useToast({ autoDelete, autoDeleteTime });
 
-    if (!toastList?.length) return null
+    if (!toastList?.length) return null;
 
     return (
         <div className={cn('absolute z-20 flex flex-col gap-2', position)}>
@@ -42,7 +42,7 @@ const Toast = (props: ToastProps) => {
                 </div>
             ))}
         </div>
-    )
-}
+    );
+};
 
-export { Toast }
+export { Toast };

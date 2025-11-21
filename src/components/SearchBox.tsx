@@ -1,6 +1,6 @@
 interface SearchBoxProps {
-    searchStr?: string
-    setSearchStr: (searchStr: string) => void
+    searchStr?: string;
+    setSearchStr: (searchStr: string) => void;
 }
 
 export const SearchBox = ({ searchStr, setSearchStr }: SearchBoxProps) => {
@@ -11,11 +11,11 @@ export const SearchBox = ({ searchStr, setSearchStr }: SearchBoxProps) => {
                 placeholder="Search"
                 value={searchStr}
                 onChange={(e) => {
-                    setSearchStr(e.target.value)
+                    setSearchStr(e.target.value);
                 }}
                 name="search"
                 className="text-black rounded-full p-2 w-sm ring"
             />
         </div>
-    )
-}
+    );
+};

@@ -1,34 +1,34 @@
-import { Suspense } from 'react'
-import { notFound } from 'next/navigation'
-import { Image } from '../../../components/ui/Image'
-import '../../styles/global.css'
-import Reviews from '@/components/Reviews'
+import { Suspense } from 'react';
+import { notFound } from 'next/navigation';
+import { Image } from '../../../components/ui/Image';
+import '../../styles/global.css';
+import Reviews from '@/components/Reviews';
 
-export const revalidate = 60
+export const revalidate = 60;
 
 export async function generateStaticParams() {
     const res = await fetch(
         `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_KEY}`
-    )
-    const data = await res.json()
+    );
+    const data = await res.json();
     return data?.results?.map((movie: { id?: number }) => ({
         id: movie?.id?.toString() || '',
-    }))
+    }));
 }
 
 export default async function MovieDetails({
     params,
 }: {
-    params: Promise<{ id: string }>
+    params: Promise<{ id: string }>;
 }) {
-    const { id } = await params
+    const { id } = await params;
     const res = await fetch(
         `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_KEY}`
-    )
+    );
     if (!res.ok) {
-        notFound()
+        notFound();
     }
-    const movie = await res.json()
+    const movie = await res.json();
 
     return (
         <main>
@@ -52,5 +52,5 @@ export default async function MovieDetails({
                 </div>
             </div>
         </main>
-    )
+    );
 }

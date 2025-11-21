@@ -1,11 +1,11 @@
-import { cn } from '@/utils/common'
-import { TOOLTIP_POSITION } from './types'
-import { useEffect, useState } from 'react'
+import { cn } from '@/utils/common';
+import { TOOLTIP_POSITION } from './types';
+import { useEffect, useState } from 'react';
 interface ToolTipProps {
-    position?: (typeof TOOLTIP_POSITION)[keyof typeof TOOLTIP_POSITION]
-    text?: string
-    className?: string
-    children?: React.ReactNode
+    position?: (typeof TOOLTIP_POSITION)[keyof typeof TOOLTIP_POSITION];
+    text?: string;
+    className?: string;
+    children?: React.ReactNode;
 }
 
 const Tooltip = ({
@@ -14,27 +14,27 @@ const Tooltip = ({
     className,
     children,
 }: ToolTipProps) => {
-    const [active, setActive] = useState(false)
-    let timeout: ReturnType<typeof setTimeout> | null = null
+    const [active, setActive] = useState(false);
+    let timeout: ReturnType<typeof setTimeout> | null = null;
 
     const showTip = () => {
         timeout = setTimeout(() => {
-            setActive(true)
-        }, 400)
-    }
+            setActive(true);
+        }, 400);
+    };
 
     const hideTip = () => {
-        setActive(false)
-    }
+        setActive(false);
+    };
     useEffect(() => {
         return () => {
             if (timeout) {
-                clearTimeout(timeout)
+                clearTimeout(timeout);
             }
-        }
-    }, [])
+        };
+    }, []);
 
-    if (!text) return null
+    if (!text) return null;
     return (
         <div onMouseEnter={showTip} onMouseLeave={hideTip} className="relative">
             {children}
@@ -50,7 +50,7 @@ const Tooltip = ({
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
 
-export { Tooltip }
+export { Tooltip };

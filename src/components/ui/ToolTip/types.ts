@@ -3,4 +3,4 @@ export const TOOLTIP_POSITION = {
     BOTTOM: 'top-full',
     LEFT: 'right-full',
     RIGHT: 'left-full',
-}
+};

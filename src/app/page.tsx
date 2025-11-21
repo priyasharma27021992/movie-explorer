@@ -1,72 +1,72 @@
-'use client'
+'use client';
 
-import { MovieCard } from '@/components/MovieCard'
-import { SearchBox } from '@/components/SearchBox'
-import { useMovies } from '@/hooks/api/useMovies'
-import { useAddToWatch } from '@/hooks/useAddToWatch'
-import { Movie } from '@/types'
-import { debounce } from '@/utils/common'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { MovieCard } from '@/components/MovieCard';
+import { SearchBox } from '@/components/SearchBox';
+import { useMovies } from '@/hooks/api/useMovies';
+import { useAddToWatch } from '@/hooks/useAddToWatch';
+import { Movie } from '@/types';
+import { debounce } from '@/utils/common';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export default function Home() {
-    const [movies, setMovies] = useState<Array<Movie>>([])
-    const [filteredMovies, setFilteredMovies] = useState<Array<Movie>>([])
-    const [page, setPage] = useState(1)
-    const [searchStr, setSearchStr] = useState('')
-    const loadingRef = useRef(null)
-    const { toggleToWatchMovie } = useAddToWatch()
-    const { data, isLoading } = useMovies(page)
+    const [movies, setMovies] = useState<Array<Movie>>([]);
+    const [filteredMovies, setFilteredMovies] = useState<Array<Movie>>([]);
+    const [page, setPage] = useState(1);
+    const [searchStr, setSearchStr] = useState('');
+    const loadingRef = useRef(null);
+    const { toggleToWatchMovie } = useAddToWatch();
+    const { data, isLoading } = useMovies(page);
 
     useEffect(() => {
-        if (data?.results) setMovies((prev) => [...prev, ...data.results])
-    }, [data])
+        if (data?.results) setMovies((prev) => [...prev, ...data.results]);
+    }, [data]);
 
     useEffect(() => {
-        if (!movies.length) return
+        if (!movies.length) return;
 
         const intersectionObserver = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting) {
-                    setPage((prev) => prev + 1)
+                    setPage((prev) => prev + 1);
                 }
             },
             { threshold: 0, rootMargin: '200px' }
-        )
+        );
         if (loadingRef.current) {
-            intersectionObserver.observe(loadingRef.current)
+            intersectionObserver.observe(loadingRef.current);
         }
-        return () => intersectionObserver.disconnect()
-    }, [movies.length])
+        return () => intersectionObserver.disconnect();
+    }, [movies.length]);
 
     const searchByMovieName = useCallback(
         (searchText?: string) => {
             if (!searchText) {
-                setFilteredMovies(movies)
-                return
+                setFilteredMovies(movies);
+                return;
             }
 
-            const text = searchText.toLowerCase()
+            const text = searchText.toLowerCase();
             const filtered = movies.filter((mov) =>
                 mov.title.toLowerCase().includes(text)
-            )
-            setFilteredMovies(filtered)
+            );
+            setFilteredMovies(filtered);
         },
         [movies]
-    )
+    );
 
-    const debouncedSearch = useMemo(() => debounce(searchByMovieName), [])
+    const debouncedSearch = useMemo(() => debounce(searchByMovieName), []);
 
     const handleSearch = (searchText: string) => {
-        setSearchStr(searchText)
-        debouncedSearch(searchText)
-    }
+        setSearchStr(searchText);
+        debouncedSearch(searchText);
+    };
 
     useEffect(() => {
-        if (!searchStr) setFilteredMovies(movies)
-        else searchByMovieName(searchStr)
-    }, [movies, searchByMovieName, searchStr])
+        if (!searchStr) setFilteredMovies(movies);
+        else searchByMovieName(searchStr);
+    }, [movies, searchByMovieName, searchStr]);
 
-    console.log('mount page:', page)
+    console.log('mount page:', page);
 
     return (
         <main className="max-w-[1280px] mx-auto my-2">
@@ -94,5 +94,5 @@ export default function Home() {
                 {isLoading && <span>loading more...</span>}
             </div>
         </main>
-    )
+    );
 }

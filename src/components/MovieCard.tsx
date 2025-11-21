@@ -1,17 +1,17 @@
-import Link from 'next/link'
-import { Image } from '../components/ui/Image'
-import { cn } from '@/utils/common'
-import { Movie } from '@/types'
-import StarIcon from '@/assets/icons/star.svg'
-import StarIconOutline from '@/assets/icons/outline/star.svg'
-import { useAddToWatch } from '@/hooks/useAddToWatch'
-import { Tooltip } from './ui/ToolTip/ToolTip'
+import Link from 'next/link';
+import { Image } from '../components/ui/Image';
+import { cn } from '@/utils/common';
+import { Movie } from '@/types';
+import StarIcon from '@/assets/icons/star.svg';
+import StarIconOutline from '@/assets/icons/outline/star.svg';
+import { useAddToWatch } from '@/hooks/useAddToWatch';
+import { Tooltip } from './ui/ToolTip/ToolTip';
 
 interface MovieCardProps {
-    movie: Movie
-    className?: string
-    index?: number
-    toggleToWatchMovie: (movie: Movie) => void
+    movie: Movie;
+    className?: string;
+    index?: number;
+    toggleToWatchMovie: (movie: Movie) => void;
 }
 
 const MovieCard = ({
@@ -19,9 +19,9 @@ const MovieCard = ({
     className,
     toggleToWatchMovie,
 }: MovieCardProps) => {
-    const { isMovieInWatchList } = useAddToWatch()
+    const { isMovieInWatchList } = useAddToWatch();
 
-    const isWatchListedMovie = isMovieInWatchList(movie.title)
+    const isWatchListedMovie = isMovieInWatchList(movie.title);
     return (
         <div className="flex flex-col gap-2">
             <Link
@@ -66,7 +66,7 @@ const MovieCard = ({
                 <p className="text-sm">{movie.title}</p>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export { MovieCard }
+export { MovieCard };

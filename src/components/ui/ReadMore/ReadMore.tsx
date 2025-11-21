@@ -1,27 +1,27 @@
-import { cn } from '@/utils/common'
-import React, { useEffect, useRef, useState } from 'react'
+import { cn } from '@/utils/common';
+import React, { useEffect, useRef, useState } from 'react';
 
 const ReadMore = ({
     text,
     amountOfWords = 50,
 }: {
-    text: string
-    amountOfWords?: number
+    text: string;
+    amountOfWords?: number;
 }) => {
-    const [showMore, setShowMore] = useState(false)
-    const [height, setHeight] = useState('0px')
-    const containerRef = useRef<HTMLDivElement>(null)
+    const [showMore, setShowMore] = useState(false);
+    const [height, setHeight] = useState('0px');
+    const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setHeight(showMore ? `${containerRef.current?.scrollHeight}px` : '0px')
-    }, [showMore])
+        setHeight(showMore ? `${containerRef.current?.scrollHeight}px` : '0px');
+    }, [showMore]);
 
-    if (!text) return null
+    if (!text) return null;
 
-    const words = text.split(' ')
-    const isLong = words.length > amountOfWords
-    const beginText = words.slice(0, amountOfWords - 1).join(' ')
-    const endText = words.slice(amountOfWords, text.length - 1).join(' ')
+    const words = text.split(' ');
+    const isLong = words.length > amountOfWords;
+    const beginText = words.slice(0, amountOfWords - 1).join(' ');
+    const endText = words.slice(amountOfWords, text.length - 1).join(' ');
 
     return (
         <div>
@@ -45,7 +45,7 @@ const ReadMore = ({
                 </button>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default ReadMore
+export default ReadMore;

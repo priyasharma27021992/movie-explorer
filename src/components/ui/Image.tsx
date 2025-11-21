@@ -1,8 +1,8 @@
-import NextImage from 'next/image'
-import type { ImageProps } from 'next/image'
+import NextImage from 'next/image';
+import type { ImageProps } from 'next/image';
 
 interface CustomImageProps extends ImageProps {
-    className?: string
+    className?: string;
 }
 
 const Image = ({
@@ -23,7 +23,7 @@ const Image = ({
                 }
                 {...restProps}
             />
-        )
+        );
     return (
         <NextImage
             className={className}
@@ -35,7 +35,7 @@ const Image = ({
             }
             {...restProps}
         />
-    )
-}
+    );
+};
 
-export { Image }
+export { Image };

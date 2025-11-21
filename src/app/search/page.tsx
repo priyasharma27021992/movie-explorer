@@ -1,16 +1,16 @@
-'use client'
+'use client';
 
-import { Movie } from '@/types'
-import { useState } from 'react'
+import { Movie } from '@/types';
+import { useState } from 'react';
 
 export default function SearchPage() {
-    const [query, setQuery] = useState('')
-    const [results, setResults] = useState([])
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState([]);
 
     async function handleSearch() {
-        const res = await fetch(`/api/search?query=${query}`)
-        const data = await res.json()
-        setResults(data.results || [])
+        const res = await fetch(`/api/search?query=${query}`);
+        const data = await res.json();
+        setResults(data.results || []);
     }
 
     return (
@@ -31,5 +31,5 @@ export default function SearchPage() {
                 ))}
             </ul>
         </main>
-    )
+    );
 }
