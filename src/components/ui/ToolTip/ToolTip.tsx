@@ -43,7 +43,7 @@ const Tooltip = ({
                     className={cn(
                         'absolute py-2 rounded-sm z-1 w-[130px] text-[#000] text-center bg-background shadow-lg',
                         position,
-                        className
+                        className,
                     )}
                 >
                     {text}

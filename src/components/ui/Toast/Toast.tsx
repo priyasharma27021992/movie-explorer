@@ -25,7 +25,8 @@ const Toast = (props: ToastProps) => {
                         toastItem.type === TOAST_TYPE.INFO && 'bg-sky-400',
                         toastItem.type === TOAST_TYPE.ERROR && 'bg-red-400',
                         toastItem.type === TOAST_TYPE.SUCCESS && 'bg-green-400',
-                        toastItem.type === TOAST_TYPE.WARNING && 'bg-amber-300 '
+                        toastItem.type === TOAST_TYPE.WARNING &&
+                            'bg-amber-300 ',
                     )}
                 >
                     <button

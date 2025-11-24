@@ -5,7 +5,7 @@ import useSWR from 'swr';
 export function useReviews(id: string) {
     const { data, error, isLoading } = useSWR<{ results?: Review[] }>(
         id ? `/api/reviews?id=${id}` : null,
-        fetcher
+        fetcher,
     );
 
     return {

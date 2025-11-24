@@ -8,7 +8,7 @@ export const revalidate = 60;
 
 export async function generateStaticParams() {
     const res = await fetch(
-        `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_KEY}`
+        `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_KEY}`,
     );
     const data = await res.json();
     return data?.results?.map((movie: { id?: number }) => ({
@@ -23,7 +23,7 @@ export default async function MovieDetails({
 }) {
     const { id } = await params;
     const res = await fetch(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_KEY}`
+        `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_KEY}`,
     );
     if (!res.ok) {
         notFound();

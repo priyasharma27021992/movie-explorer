@@ -35,7 +35,7 @@ const MovieCard = ({
                         fill
                         className={cn(
                             'absolute inset-0 object-cover group-hover:scale-105 transition-transform duration-500 ease-in',
-                            className
+                            className,
                         )}
                     />
                 </div>

@@ -5,7 +5,7 @@ export async function GET(req: NextRequest) {
     const query = searchParams.get('query');
 
     const res = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_KEY}&query=${query}`
+        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_KEY}&query=${query}`,
     );
     console.log('baby res', res);
     const data = await res.json();

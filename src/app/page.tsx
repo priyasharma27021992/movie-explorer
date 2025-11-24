@@ -30,7 +30,7 @@ export default function Home() {
                     setPage((prev) => prev + 1);
                 }
             },
-            { threshold: 0, rootMargin: '200px' }
+            { threshold: 0, rootMargin: '200px' },
         );
         if (loadingRef.current) {
             intersectionObserver.observe(loadingRef.current);
@@ -47,11 +47,11 @@ export default function Home() {
 
             const text = searchText.toLowerCase();
             const filtered = movies.filter((mov) =>
-                mov.title.toLowerCase().includes(text)
+                mov.title.toLowerCase().includes(text),
             );
             setFilteredMovies(filtered);
         },
-        [movies]
+        [movies],
     );
 
     const debouncedSearch = useMemo(() => debounce(searchByMovieName), []);
@@ -84,7 +84,7 @@ export default function Home() {
                             index={index}
                             toggleToWatchMovie={toggleToWatchMovie}
                         />
-                    )
+                    ),
                 )}
             </div>
             <div

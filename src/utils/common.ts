@@ -20,7 +20,7 @@ export function cn(...args: ClassValue[]) {
 
 export function debounce<A extends unknown[]>(
     callbackFunc: (...args: A) => void,
-    delay = 1000
+    delay = 1000,
 ) {
     let timer: ReturnType<typeof setTimeout> | null = null;
     return function (...args: A) {
