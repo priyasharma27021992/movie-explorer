@@ -32,7 +32,7 @@ const Tooltip = ({
                 clearTimeout(timeout);
             }
         };
-    }, []);
+    }, [timeout]);
 
     if (!text) return null;
     return (

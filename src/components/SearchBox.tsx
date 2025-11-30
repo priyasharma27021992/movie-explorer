@@ -15,6 +15,7 @@ export const SearchBox = ({ searchStr, setSearchStr }: SearchBoxProps) => {
                 }}
                 name="search"
                 className="text-black rounded-full p-2 w-sm ring"
+                data-testid="search-input"
             />
         </div>
     );

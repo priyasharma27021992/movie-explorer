@@ -23,7 +23,7 @@ const MovieCard = ({
 
     const isWatchListedMovie = isMovieInWatchList(movie.title);
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2" data-testid="movie-card">
             <Link
                 href={`/movie/${movie.id}`}
                 className="group hover:-translate-y-1 focus-within:-translate-y-1 focus-within:shadow-lg overflow-hidden transition-all duration-300 ease-in"

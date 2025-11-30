@@ -22,7 +22,7 @@ export default function Home() {
     }, [data]);
 
     useEffect(() => {
-        if (!movies.length) return;
+        if (!loadingRef.current) return;
 
         const intersectionObserver = new IntersectionObserver(
             (entries) => {
@@ -36,7 +36,7 @@ export default function Home() {
             intersectionObserver.observe(loadingRef.current);
         }
         return () => intersectionObserver.disconnect();
-    }, [movies.length]);
+    }, []);
 
     const searchByMovieName = useCallback(
         (searchText?: string) => {
@@ -54,7 +54,10 @@ export default function Home() {
         [movies],
     );
 
-    const debouncedSearch = useMemo(() => debounce(searchByMovieName), []);
+    const debouncedSearch = useMemo(
+        () => debounce(searchByMovieName),
+        [searchByMovieName],
+    );
 
     const handleSearch = (searchText: string) => {
         setSearchStr(searchText);
@@ -65,8 +68,6 @@ export default function Home() {
         if (!searchStr) setFilteredMovies(movies);
         else searchByMovieName(searchStr);
     }, [movies, searchByMovieName, searchStr]);
-
-    console.log('mount page:', page);
 
     return (
         <main className="max-w-[1280px] mx-auto my-2">
