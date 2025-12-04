@@ -2,8 +2,10 @@
 
 import { MovieCard } from '@/components/MovieCard';
 import { SearchBox } from '@/components/SearchBox';
+import { useSearchMovie } from '@/hooks/api/searchMovie';
 import { useMovies } from '@/hooks/api/useMovies';
 import { useAddToWatch } from '@/hooks/useAddToWatch';
+import { useDebounceValue } from '@/hooks/useDebounceValue';
 import { Movie } from '@/types';
 import { useEffect, useRef, useState } from 'react';
 
@@ -14,7 +16,12 @@ export default function Home() {
     const loadingRef = useRef(null);
     const { toggleToWatchMovie } = useAddToWatch();
     const { data, isLoading } = useMovies(page);
+    const searchQuery = searchStr.trim();
+    const debouncedValue = useDebounceValue(searchQuery);
+    const { data: searchResults, isLoading: searchLoading } =
+        useSearchMovie(debouncedValue);
 
+    const moviesToShow = searchQuery ? (searchResults?.results ?? []) : movies;
     useEffect(() => {
         if (data?.results) setMovies((prev) => [...prev, ...data.results]);
     }, [data]);
@@ -47,15 +54,20 @@ export default function Home() {
             </h1>
             <SearchBox searchStr={searchStr} setSearchStr={handleSearch} />
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 md:grid-cols-4 md:gap-4 gap-2 max-w-full md:max-w-[90%] lg:max-w-[95%] mx-auto">
-                {movies?.map((movie: { id: string; title: string }, index) => (
-                    <MovieCard
-                        key={`${movie.id}-${index}`}
-                        movie={movie}
-                        className="rounded-lg"
-                        index={index}
-                        toggleToWatchMovie={toggleToWatchMovie}
-                    />
-                ))}
+                {moviesToShow?.map(
+                    (
+                        movie: { id: string; title: string },
+                        index: number | undefined,
+                    ) => (
+                        <MovieCard
+                            key={`${movie.id}-${index}`}
+                            movie={movie}
+                            className="rounded-lg"
+                            index={index}
+                            toggleToWatchMovie={toggleToWatchMovie}
+                        />
+                    ),
+                )}
             </div>
             <div
                 className="h-10 flex justify-center items-center"

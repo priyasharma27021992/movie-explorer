@@ -3,6 +3,7 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
     images: {
         domains: ['image.tmdb.org'], // ✅ allows TMDB images to load via <Image />
+          formats: ['image/avif', 'image/webp'],
     },
     webpack(config) {
         config.module.rules.push({
