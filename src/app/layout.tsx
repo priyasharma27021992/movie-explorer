@@ -6,6 +6,7 @@ import { ToastPosition } from '@/components/ui/Toast/types';
 import { Toast } from '@/components/ui/Toast/Toast';
 import { AddToWatchProvider } from '@/providers/AddToWatchProvider';
 import { SWRConfig } from 'swr';
+import Head from 'next/head';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -29,6 +30,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
+            <Head>
+                <link rel="preconnect" href="https://image.tmdb.org" />
+                <link rel="dns-prefetch" href="https://image.tmdb.org" />
+            </Head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >

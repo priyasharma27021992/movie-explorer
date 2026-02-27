@@ -19,7 +19,7 @@ const Image = ({
                 fill
                 sizes={
                     restProps.sizes ??
-                    '(max-width: 600px) 200px, (max-width:1200px) 300px, 500px'
+                    '(max-width: 600px) 160px, (max-width:1200px) 200px, 240px'
                 }
                 {...restProps}
             />
@@ -31,7 +31,7 @@ const Image = ({
             height={height}
             sizes={
                 restProps.sizes ??
-                '(max-width: 600px) 200px, (max-width:1200px) 300px, 500px'
+                '(max-width: 600px) 160px, (max-width:1200px) 200px, 240px'
             }
             {...restProps}
         />

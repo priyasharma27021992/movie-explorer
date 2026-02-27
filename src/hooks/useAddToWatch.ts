@@ -9,6 +9,7 @@ export const useAddToWatch = () => {
         useAddToWatchContext();
 
     const isMovieInWatchList = (title?: string) => {
+        console.log('addToWatchMovies',addToWatchMovies)
         return addToWatchMovies?.some((mov) => mov.title === title);
     };
 
@@ -19,13 +20,13 @@ export const useAddToWatch = () => {
                 type: TOAST_TYPE.ERROR,
                 title: `Movie ${movie.title} is removed to your watch list!`,
             });
-            return;
+        }else{
+            addToWatchList?.(movie);
+            addToToastList?.({
+                type: TOAST_TYPE.INFO,
+                title: `Movie ${movie.title} is added to your watch list!`,
+            });
         }
-        addToWatchList?.(movie);
-        addToToastList?.({
-            type: TOAST_TYPE.INFO,
-            title: `Movie ${movie.title} is added to your watch list!`,
-        });
     };
 
     return {
